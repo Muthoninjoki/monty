@@ -110,7 +110,7 @@ void free_dlistint(stack_t *head)
 */
 int is_no(char c)
 {
-	if (c < '0' ||| c > '9')
+	if (c < '0' || c > '9')
 		return (0);
 	return (1);
 }

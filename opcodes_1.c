@@ -58,6 +58,45 @@ void pall(stack_t **stack, unsigned int ln)
 	printf("%d\n", tmp->n);
 }
 
+/**
+* pop - removes the top element of a stack
+* @stack: pointer
+* @ln: line number
+* Return: void
+*/
+
+void pop(stack_t **stack, unsigned int ln)
+{
+	stack_t *tmp = *stack;
+
+	if (tmp == NULL)
+	{
+		dprintf(STDERR_FILENO, "L%d: can't pop an empty stack\n", ln);
+		freer();
+		exit(EXIT_FAILURE);
+	}
+	while (tmp->next != NULL)
+		tmp = tmp->next;
+	if (tmp->prev)
+	{
+		tmp->prev->next = NULL;
+	}
+	free(tmp);
+	if (tmp->prev == NULL)
+		*stack = NULL;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
