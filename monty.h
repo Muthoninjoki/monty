@@ -4,9 +4,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
+#include <sys/types.h>
+#include <fcntl.h>
+#include <sys/stat.h>
 
-
-extern char **op_toks;
 /**
 * struct stack_s - doubly linked list representation of a stack (or queue)
 * @n: integer
@@ -36,30 +38,41 @@ typedef struct instruction_s
 	char *opcode;
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
+/**
+* struct monty- to hold monty details
+* @args:args passed
+* @buff:buffer
+* @len:length
+* @stack:pointer
+* @line_number:monty file line no
+* @line: return getline
+* @file:pointer
+* @stack_queue:corresponds to a stack
+*/
+typedef struct monty
+{
+	char **args;
+	char *buff;
+	size_t len;
+	stack_t *stack;
+unsigned int line_number;
+	int line;
+	FILE *file;
+	unsigned int stack_queue;
+} monty_details;
+monty_details mon;
 
-void free_stack(stack_t **stack);
-int init_stack(stack_t **stack);
-int check_mode(stack_t *stack);
-void free_tokens(void);
-unsigned int token_arr_len(void);
-int run_monty(FILE *script_fd);
-void set_op_tok_error(int error_code);
+void parse(void);
 
-/* functions */
-void monty_push(stack_t **stack, unsigned int line_number);
-void monty_pall(stack_t **stack, unsigned int line_number);
+int is_no(char c);
+stack_t *add_dnoeint_end(stack_t **head, const int n);
+stack_t *add_node_beg(stack_t **head, const int n);
 
-/* error codes */
-int usage_error(void);
-int malloc_error(void);
-int f_open_error(char *filename);
-int unkown_op_error(char *opcode, unsigned int line_number);
-int no_int_error(unsigned int line_number);
-int pop_error(unsigned int line_number);
-int pint_error(unsigned int line_number);
-int short_stack_error(unsigned int line_number, char *op);
-int div_error(unsigned int line_number);
-int pchar_error(unsigned int line_number, char *message);
+void freer(void);
+void free_dlistint(stack_t *head);
 
+void push(stack_t **stack, unsigned int line_number);
+void pall(stack_t **stack, unsigned int line number);
 
+void ops(void);
 #endif /* __MONTY_H__ */

@@ -1,77 +1,73 @@
 #include "monty.h"
-
 /**
-* monty_push - Pushes an element to the stack
-* @stack: pointer
-* @line_number: current working line no of monty bytecodes file
+* push - pushes an element to the stack
+* @stack:pointer
+* @line_number: no of monty files to parse
 */
 
-void monty_push(stack_t **stack, unsigned int line_number)
+void push(stack_t **stack, unsigned int line_number)
 {
-	stack_t *tmp, *new;
-	int i;
+	int number, i = 0;
+	char *n = mon.args[1];
 
-	new = malloc(sizeof(stack_t));
-	if (new == NULL)
+	if (n == NULL)
 	{
-		set_op_tok_error(malloc_error());
-		return;
+		dprintf(STDERR_FILENO, "L%d: usage: push integer\n", line_number);
+		freer();
+		exit(EXIT_FAILURE);
 	}
 
-	if (op_toks[1] == NULL)
+	while (n[i])
 	{
-		set_op_tok_error(no_int_error(line_number));
-		return;
-	}
-
-	for (i = 0; op_toks[1][i]; i++)
-	{
-		if (op_toks[1][i] == '-' && i == 0)
-			continue;
-		if (op_toks[1][i] < '0' || op_toks[1][i] > '9')
+		if ((is_no(n[i]) == 0 && n[i] != '-') || (n[i] == '-' && n[i + 1] == '\0'))
 		{
-			set_op_tok_error(no_int_error(line_number));
-			return;
+			dprintf(STDERR_FILENO, "L%d: usage: push integer\n", line_number);
+			freer();
+			exit(EXIT_FAILURE);
 		}
+		i++;
 	}
-	new->n = atoi(op_toks[1]);
-
-	if (check_mode(*stack) == STACK)
-	{
-		tmp = (*stack)->next;
-		new->prev = *stack;
-		new->next = tmp;
-		if (tmp)
-			tmp->prev = new;
-		(*stack)->next = new;
-	}
+	number = atoi(n);
+	mon.args[1] = NULL;
+	if (mon.stack_queue == 1)
+		add_dnodeint_end(stack, number);
 	else
-	{
-		tmp = *stack;
-		while (tmp->next)
-			tmp = tmp->next;
-		new->prev = tmp;
-		new->next = NULL;
-		tmp->next = new;
-	}
+		add_node_beg(stack, number);
 }
 
-
-
 /**
-* monty_pall - prints all the values on the stack, starting from the top of the stack
+* pall - prints all the values on the stack, starting from the top of the stack
 * @stack:pointer
-* @line_number:current working line no of a monty bytecode file
+* @ln: line no
 */
 
-void monty_pall(stack_t **stack, unsigned int line_number)
+void pall(stack_t **stack, unsigned int ln)
 {
-	stack_t *tmp = (*stack)->next;
+	stack_t *tmp = *stack;
 
-	while (tmp)
+	(void)ln;
+	if (tmp == NULL)
+		return;
+	while (tmp->next != NULL)
+		tmp = tmp->next;
+	while (tmp->prev != NULL)
 	{
 		printf("%d\n", tmp->n);
-		tmp = tmp->next;
+		tmp = tmp->prev;
 	}
-	(void)line_number;
+	printf("%d\n", tmp->n);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
