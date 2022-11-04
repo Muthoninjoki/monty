@@ -1,12 +1,10 @@
 #include "monty.h"
-
 /**
-* add_dnodeint_end - adds a node at end of list
-* @head: pointer
-* @n:int
-* Return: address of new node
-*/
-
+ *add_dnodeint_end - adds a node 
+ *@head:pointer
+ *@n: int
+ *Return:address of new node
+ */
 stack_t *add_dnodeint_end(stack_t **head, const int n)
 {
 	stack_t *new_node, *temp;
@@ -23,7 +21,7 @@ stack_t *add_dnodeint_end(stack_t **head, const int n)
 	new_node->n = n;
 	new_node->next = NULL;
 
-	temp = *heaf;
+	temp = *head;
 	if (*head == NULL)
 	{
 		*head = new_node;
@@ -38,14 +36,12 @@ stack_t *add_dnodeint_end(stack_t **head, const int n)
 	}
 	return (new_node);
 }
-
 /**
-* add_node_beg - adds a node at the beginning of a dlist
-* @head:pointer
-* @n:int
-* Return:address of new node
-*/
-
+ *add_node_beg - adds a node at the beginning of a linked list
+ *@head:pointer
+ *@n:int
+ *Return:address of new node
+ */
 stack_t *add_node_beg(stack_t **head, const int n)
 {
 	stack_t *new_node;
@@ -53,7 +49,7 @@ stack_t *add_node_beg(stack_t **head, const int n)
 	new_node = malloc(sizeof(stack_t));
 	if (new_node == NULL)
 	{
-		dprintf(STDERR_FILENO, "Error: malloc failed\n");
+		dprintf(STDERR_FILENO, "Error:malloc failed\n");
 		exit(EXIT_FAILURE);
 	}
 	if (head == NULL)
@@ -77,13 +73,11 @@ stack_t *add_node_beg(stack_t **head, const int n)
 	}
 	return (new_node);
 }
-
 /**
-* free_dlistint - frees dlist
-* @head:dlinked list
-* Return:void
-*/
-
+ *free_dlistint - frees a doubly linked list
+ *@head:dll
+ *Return:void
+ */
 void free_dlistint(stack_t *head)
 {
 	stack_t *temp;
@@ -92,7 +86,7 @@ void free_dlistint(stack_t *head)
 		return;
 	while (head->prev)
 	{
-		head = head->next;
+		head = head->prev;
 	}
 	while (head)
 	{
@@ -102,31 +96,17 @@ void free_dlistint(stack_t *head)
 	}
 	free(temp);
 }
-
 /**
-* is_no - checks if char is no
-* @c: char
-* Return:1 if true, 0 if otherwise
-*/
-int is_no(char c)
+ *is_no - checks if a char is no
+ *@c:char
+ *Return:1 if true, otherwise 0
+ */
+int is_no(char_c)
 {
 	if (c < '0' || c > '9')
 		return (0);
 	return (1);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
